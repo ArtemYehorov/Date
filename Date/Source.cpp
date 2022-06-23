@@ -147,6 +147,8 @@ public:
 
 	friend Date operator - (const Date& left, const Date& right);
 	friend Date operator + (const Date& OneDate, int days);
+	friend istream& operator >> (istream& is, Date& original);
+	friend ostream& operator << (ostream& os, const Date& original);
 };
 
 Date operator - (const Date& OneDate, const Date& SecondDate)
@@ -238,9 +240,33 @@ bool operator != (const Date& One, const Date& Two)
 	return One.GetDay() + (One.GetMonth() * 31) + (One.GetYear() * 365) != Two.GetDay() + (Two.GetMonth() * 31) + (Two.GetYear() * 365);
 }
 
+istream& operator >> (istream& is, Date& original)
+{
+	int a;
+
+	cout << "Please enter days:";
+	is >> a;
+	original.SetDay(a);
+	cout << "Please enter months:";
+	is >> a;
+	original.SetMonth(a);
+	cout << "Please enter years:";
+	is >> a;
+	original.SetYear(a);
+	return is;
+}
+
+ostream& operator << (ostream& os, const Date& original)
+{
+	os << original.Day << "." << original.Month << "." << original.Year << "\n";
+	return os;
+}
+
 int main()
 {
 	Date a(7, 12, 2003);
 	Date difference = a + 726;
 	difference.Print();
+	cin >> a;
+	cout << a;
 }
