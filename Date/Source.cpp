@@ -149,6 +149,240 @@ public:
 	friend Date operator + (const Date& OneDate, int days);
 	friend istream& operator >> (istream& is, Date& original);
 	friend ostream& operator << (ostream& os, const Date& original);
+
+	int operator[](int index)
+	{
+		if (index == 0)
+		{
+			return Day;
+		}
+		else if (index == 1)
+		{
+			return Month;
+		}
+		else if (index == 2)
+		{
+			return Year;
+		}
+		else
+		{
+			throw "Incorrect index!";
+		}
+	}
+
+	Date& operator++()
+	{
+		++Day;
+		if (Month == 2)
+		{
+		    if (YearTest(Year))
+		    {
+		    	if (Day > 28)
+		    	{
+		    		Day = 1;
+		    		++Month;
+					if (Month > 12)
+					{
+						Month = 1;
+						Year++;
+					}
+		    	}
+		    }
+		    else
+		    {
+		    	if (Day > 29)
+		    	{
+		    		Day = 1;
+		    		++Month;
+					if (Month > 12)
+					{
+						Month = 1;
+						Year++;
+					}
+		    	}
+		    }
+		}
+		else if (MonthTest(Month))
+		{
+			if (Day > 31)
+			{
+				Day = 1;
+				++Month;
+				if (Month > 12)
+				{
+					Month = 1;
+					Year++;
+				}
+			}
+		}
+		else if (MonthTest(Month) == false)
+		{
+			if (Day > 30)
+			{
+				Day = 1;
+				++Month;
+				if (Month > 12)
+				{
+					Month = 1;
+					Year++;
+				}
+			}
+		}
+		return *this;
+	}
+	Date operator++(int)
+	{
+		Date copy = *this;
+		++Day;
+		if (Month == 2)
+		{
+		    if (YearTest(Year))
+		    {
+		    	if (Day > 28)
+		    	{
+		    		Day = 1;
+		    		++Month;
+					if (Month > 12)
+					{
+						Month = 1;
+						Year++;
+					}
+		    	}
+		    }
+		    else
+		    {
+		    	if (Day > 29)
+		    	{
+		    		Day = 1;
+		    		++Month;
+					if (Month > 12)
+					{
+						Month = 1;
+						Year++;
+					}
+		    	}
+		    }
+		}
+		else if (MonthTest(Month))
+		{
+			if (Day > 31)
+			{
+				Day = 1;
+				++Month;
+				if (Month > 12)
+				{
+					Month = 1;
+					Year++;
+				}
+			}
+		}
+		else if (MonthTest(Month) == false)
+		{
+			if (Day > 30)
+			{
+				Day = 1;
+				++Month;
+				if (Month > 12)
+				{
+					Month = 1;
+					Year++;
+				}
+			}
+		}
+		return copy; 
+	}
+
+	Date& operator--()
+	{
+		--Day;
+		if (Month == 2)
+		{
+			if (YearTest(Year))
+			{
+				if (Day < 1)
+				{
+					Day = 28;
+					--Month;
+				}
+			}
+			else
+			{
+				if (Day < 1)
+				{
+					Day = 29;
+					--Month;
+				}
+			}
+		}
+		else if (MonthTest(Month))
+		{
+			if (Day < 1)
+			{
+				Day = 30;
+				--Month;
+				if (Month < 1)
+				{
+					Month = 12;
+					Year--;
+				}
+			}
+		}
+		else if (MonthTest(Month) == false)
+		{
+			if (Day < 1)
+			{
+				Day = 31;
+				--Month;
+			}
+		}
+		return *this;
+	}
+	Date operator--(int)
+	{
+		Date copy = *this;
+		--Day;
+		if (Month == 2)
+		{
+			if (YearTest(Year))
+			{
+				if (Day < 1)
+				{
+					Day = 28;
+					--Month;
+				}
+			}
+			else
+			{
+				if (Day < 1)
+				{
+					Day = 29;
+					--Month;
+				}
+			}
+		}
+		else if (MonthTest(Month))
+		{
+			if (Day < 1)
+			{
+				Day = 31;
+				--Month;
+				if (Month < 1)
+				{
+					Month = 12;
+					Year--;
+				}
+			}
+		}
+		else if (MonthTest(Month) == false)
+		{
+			if (Day < 1)
+			{
+				Day = 30;
+				--Month;
+			}
+		}
+		return copy; // возвращаем копию
+	}
 };
 
 Date operator - (const Date& OneDate, const Date& SecondDate)
@@ -264,9 +498,12 @@ ostream& operator << (ostream& os, const Date& original)
 
 int main()
 {
-	Date a(7, 12, 2003);
-	Date difference = a + 726;
-	difference.Print();
-	cin >> a;
-	cout << a;
+	Date a(1,1,2020);
+	for (int i = 0; i < 365; i++)
+	{
+		system("cls");
+		--a;
+		a.Print();
+		Sleep(100);
+	}
 }
